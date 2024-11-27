@@ -1,26 +1,30 @@
 // src/App.js
 
-import React, { useEffect } from 'react';
-import { getExampleData } from './services/api';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+import PrivateRoute from './components/PrivateRoute';
+import NavBar from './components/NavBar';
 
 function App() {
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getExampleData();
-        console.log('Data from backend:', data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
-    <div>
-      <h1>Welcome to Swallet Frontend</h1>
-    </div>
+    <>
+      <NavBar />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <HomePage />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </>
   );
 }
 

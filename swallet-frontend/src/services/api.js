@@ -1,24 +1,25 @@
 // src/services/api.js
 
+import axios from 'axios';
+
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const getExampleData = async () => {
-  try {
-    const response = await fetch(`${API_URL}/example-endpoint`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+const axiosInstance = axios.create({
+  baseURL: API_URL,
+});
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+// Add a request interceptor
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token'); // Or retrieve from context
+    if (token) {
+      config.headers['Authorization'] = 'Bearer ' + token;
     }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
   }
-};
+);
+
+export default axiosInstance;

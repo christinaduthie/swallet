@@ -1,11 +1,14 @@
 // index.js
-
 require('dotenv').config(); // Load environment variables
+
+const authRoutes = require('./routes/auth');
+
 
 const express = require('express');
 const app = express();
 const pool = require('./config/db'); // Updated path to db.js
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 app.use(cors());
 const PORT = process.env.PORT || 5000;
@@ -13,7 +16,10 @@ const PORT = process.env.PORT || 5000;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Test route to check if server is running
+// Routes
+app.use('/api/auth', authRoutes);
+
+// Test route
 app.get('/', (req, res) => {
   res.send('Hello, Swallet Backend!');
 });
