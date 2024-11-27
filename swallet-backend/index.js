@@ -5,7 +5,9 @@ require('dotenv').config(); // Load environment variables
 const express = require('express');
 const app = express();
 const pool = require('./config/db'); // Updated path to db.js
+const cors = require('cors');
 
+app.use(cors());
 const PORT = process.env.PORT || 5000;
 
 // Middleware to parse JSON bodies
@@ -26,7 +28,9 @@ app.get('/test-db', async (req, res) => {
     res.status(500).send('Database connection error');
   }
 });
-
+app.get('/example-endpoint', (req, res) => {
+  res.json({ message: 'Hello from the backend!' });
+});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
