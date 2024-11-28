@@ -82,7 +82,7 @@ const HomePage = () => {
           <Card className="text-center shadow">
             <Card.Body>
               <Image
-                src={user?.profile_icon || '/assets/images/default-Profile.png'}
+                src={user?.profile_icon || '/assets/images/default-profile.png'}
                 roundedCircle
                 width="100"
                 height="100"

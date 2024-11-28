@@ -14,41 +14,48 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Container fluid className="p-0">
-          <Row noGutters>
-            <Sidebar />
-            <Col className="main-content p-4">
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <PrivateRoute>
-                      <HomePage />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/add-funds"
-                  element={
-                    <PrivateRoute>
-                      <AddFundsPage />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/my-account"
-                  element={
-                    <PrivateRoute>
-                      <MyAccountPage />
-                    </PrivateRoute>
-                  }
-                />
-                <Route path="/signup" element={<SignUpPage />} />
-                <Route path="/login" element={<LoginPage />} />
-              </Routes>
-            </Col>
-          </Row>
-        </Container>
+        <Routes>
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/*"
+            element={
+              <Container fluid className="p-0">
+                <Row noGutters>
+                  <Sidebar />
+                  <Col className="main-content p-4">
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={
+                          <PrivateRoute>
+                            <HomePage />
+                          </PrivateRoute>
+                        }
+                      />
+                      <Route
+                        path="/add-funds"
+                        element={
+                          <PrivateRoute>
+                            <AddFundsPage />
+                          </PrivateRoute>
+                        }
+                      />
+                      <Route
+                        path="/my-account"
+                        element={
+                          <PrivateRoute>
+                            <MyAccountPage />
+                          </PrivateRoute>
+                        }
+                      />
+                    </Routes>
+                  </Col>
+                </Row>
+              </Container>
+            }
+          />
+        </Routes>
       </Router>
     </AuthProvider>
   );

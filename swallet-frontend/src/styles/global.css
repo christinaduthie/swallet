@@ -83,18 +83,9 @@ body {
   .logout-button {
     position: absolute;
     bottom: 20px;
-    width: 87%;
-    background-color: #8470d5;
-    border: none;
+    width: 100%;
   }
-  .logout-button:hover {
-    position: absolute;
-    bottom: 20px;
-    width: 87%;
-    background-color: #e6e1fe;
-    border: none;
-    color: #000000;
-  }
+  
   /* Card hover effect */
   .card {
     transition: transform 0.2s, box-shadow 0.2s;

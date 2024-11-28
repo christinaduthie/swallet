@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 const Sidebar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
-  const {  logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const [expanded, setExpanded] = useState(false);
 
   const handleLogout = () => {
@@ -20,7 +20,7 @@ const Sidebar = () => {
   return (
     <>
       <Navbar expand="lg" variant="dark" className="d-lg-none" style={{ backgroundColor: '#542de8' }}>
-        
+       
         <Navbar.Toggle aria-controls="sidebar-navbar-nav" onClick={toggleSidebar} />
       </Navbar>
 
@@ -45,6 +45,8 @@ const Sidebar = () => {
           </Nav.Link>
           {/* Add more navigation links as needed */}
         </Nav>
+
+       
 
         <Button
           variant="danger"
