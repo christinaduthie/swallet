@@ -15,27 +15,11 @@ body {
   }
   
   .container {
-    padding: 20px;
+    padding: 0;
   }
   
-  @media (max-width: 991px) {
-    /* Medium screens and below */
-    .container {
-      padding: 10px;
-    }
-  }
-  
-  /* Navbar styles */
   .navbar {
     background-color: #542de8;
-  }
-  
-  .navbar-toggler {
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .navbar-toggler-icon {
-    color: white;
   }
   
   .navbar-brand,
@@ -47,12 +31,13 @@ body {
   /* Sidebar styles */
   .sidebar {
     position: fixed;
-    top: 56px; /* Height of the navbar */
+    top: 0;
     bottom: 0;
     left: 0;
-    width: 200px;
+    width: 250px;
     padding-top: 20px;
     background-color: #542de8;
+    overflow-y: auto;
   }
   
   .sidebar .nav-link {
@@ -66,36 +51,58 @@ body {
     background-color: #6a3ef0;
   }
   
+  .sidebar .navbar-brand {
+    color: #fff;
+    font-size: 1.5em;
+    padding: 1rem;
+  }
+  
+  .main-content {
+    margin-left: 250px;
+  }
+  
   @media (max-width: 991px) {
-    /* Hide sidebar on small screens */
     .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
       display: none;
     }
-  }
-  
-  /* Adjust main content margin */
-  @media (min-width: 992px) {
-    /* Large screens and up */
     .main-content {
-      margin-left: 200px; /* Width of the sidebar */
+      margin-left: 0;
     }
   }
   
+  @media (max-width: 991px) {
+    .sidebar.active {
+      display: block;
+    }
+  }
+  
+  /* Logout button at the bottom */
+  .logout-button {
+    position: absolute;
+    bottom: 20px;
+    width: 87%;
+    background-color: #8470d5;
+    border: none;
+  }
+  .logout-button:hover {
+    position: absolute;
+    bottom: 20px;
+    width: 87%;
+    background-color: #e6e1fe;
+    border: none;
+    color: #000000;
+  }
   /* Card hover effect */
   .card {
-    transition: transform 0.4s, box-shadow 0.4s;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
   
   .card:hover {
-    transform: scale(1.001);
+    transform: scale(1.02);
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
-  }
-  .custom-shadow {
-    box-shadow: 0 0.5rem 0.5rem 0 rgba(151, 151, 151, 0.1);
-  }
-  
-  .custom-shadow:hover {
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
   }
   
   /* Button styles */

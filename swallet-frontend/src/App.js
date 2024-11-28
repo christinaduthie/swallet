@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import NavBar from './components/NavBar';
 import Sidebar from './components/Sidebar';
 import PrivateRoute from './components/PrivateRoute';
 import SignUpPage from './pages/SignUpPage';
@@ -15,13 +14,10 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <NavBar />
-        <Container fluid>
-          <Row>
-            <Col xs={12} lg={2} className="p-0">
-              <Sidebar />
-            </Col>
-            <Col xs={12} lg={10} className="p-4 main-content" style={{ marginLeft: 'auto' }}>
+        <Container fluid className="p-0">
+          <Row noGutters>
+            <Sidebar />
+            <Col className="main-content p-4">
               <Routes>
                 <Route
                   path="/"

@@ -22,7 +22,7 @@ const NavBar = () => {
     <Navbar collapseOnSelect expand="lg" className="navbar" variant="dark">
       <Container fluid>
         <Navbar.Brand as={Link} to="/">
-          Swallet
+          
         </Navbar.Brand>
         {authToken && (
           <>
