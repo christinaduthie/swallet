@@ -1,92 +1,79 @@
-// src/pages/LoginPage.js
-
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../contexts/AuthContext';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { Form, Button, Card, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 
 const LoginPage = () => {
-  const [credentials, setCredentials] = useState({
-    emailOrPhone: '',
-    passwordOrPin: '',
+  const { login } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
   });
-
   const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-  const { login, authToken } = useContext(AuthContext);
-  const API_URL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
-  // Redirect to homepage if already authenticated
-  useEffect(() => {
-    if (authToken) {
-      navigate('/');
-    }
-  }, [authToken, navigate]);
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const handleChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
-    setMessage(''); // Clear message on input change
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setMessage('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loading
-
     try {
-      const response = await axios.post(`${API_URL}/api/auth/login`, credentials);
+      const response = await axios.post(`${API_URL}/api/auth/login`, formData);
       login(response.data.token);
-      setMessage(response.data.message);
-
-      // Redirect to the homepage
-      navigate('/'); // Navigate to the homepage upon successful login
+      navigate('/');
     } catch (error) {
-      console.error('Error logging in:', error);
+      console.error('Error during login:', error);
       setMessage(
         error.response?.data?.message || 'An error occurred during login.'
       );
-    } finally {
-      setIsLoading(false); // Stop loading
     }
   };
 
   return (
-    <Container className="mt-5">
-      <h2>Login</h2>
-      {message && (
-        <Alert variant={message === 'Login successful.' ? 'success' : 'danger'}>
-          {message}
-        </Alert>
-      )}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formEmailOrPhone" className="mb-3">
-          <Form.Label>Email or Phone</Form.Label>
-          <Form.Control
-            type="text"
-            name="emailOrPhone"
-            value={credentials.emailOrPhone}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formPasswordOrPin" className="mb-3">
-          <Form.Label>Password or PIN</Form.Label>
-          <Form.Control
-            type="password"
-            name="passwordOrPin"
-            value={credentials.passwordOrPin}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-
-        <Button variant="primary" type="submit" disabled={isLoading}>
-          {isLoading ? 'Logging in...' : 'Login'}
-        </Button>
-      </Form>
-    </Container>
+    <div className="d-flex justify-content-center align-items-center min-vh-100">
+      <Card style={{ width: '400px' }}>
+        <Card.Body>
+          <Card.Title className="text-center" style={{ color: '#542de8' }}>
+            Log In
+          </Card.Title>
+          {message && <Alert variant="danger">{message}</Alert>}
+          <Form onSubmit={handleSubmit}>
+            {/* Form fields */}
+            <Form.Group controlId="formEmail" className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="formPassword" className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" className="w-100">
+              Log In
+            </Button>
+          </Form>
+          <div className="text-center mt-3">
+            Don't have an account? <a href="/signup">Sign Up</a>
+          </div>
+        </Card.Body>
+      </Card>
+    </div>
   );
 };
 

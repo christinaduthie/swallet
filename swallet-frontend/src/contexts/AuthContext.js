@@ -1,18 +1,34 @@
-// src/contexts/AuthContext.js
-
 import React, { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const navigate = useNavigate(); // Hook to navigate programmatically
   const existingToken = localStorage.getItem('token');
   const [authToken, setAuthToken] = useState(existingToken);
+  const [user, setUser] = useState(null);
+
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    setAuthToken(existingToken);
-  }, [existingToken]);
+    if (authToken) {
+      // Fetch user data
+      axios
+        .get(`${API_URL}/api/auth/user`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        })
+        .then((response) => {
+          setUser(response.data.user);
+        })
+        .catch((error) => {
+          console.error('Error fetching user data:', error);
+          setAuthToken(null);
+          localStorage.removeItem('token');
+        });
+    }
+  }, [authToken, API_URL]);
 
   const login = (token) => {
     localStorage.setItem('token', token);
@@ -22,14 +38,15 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setAuthToken(null);
-    navigate('/login'); // Redirect to login page
+    setUser(null);
   };
 
   const value = {
     authToken,
-    setAuthToken,
+    user,
     login,
     logout,
+    setUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

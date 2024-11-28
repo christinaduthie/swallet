@@ -1,90 +1,159 @@
 // routes/auth.js
-const jwt = require('jsonwebtoken');
+
 const express = require('express');
-const router = express.Router();
-const pool = require('../config/db');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const pool = require('../config/db');
+const authenticateToken = require('../middleware/auth');
+const { v4: uuidv4 } = require('uuid');
 
-// Register a new user
-router.post('/register', async (req, res) => {
+const router = express.Router();
+
+// Sign-up route
+router.post('/signup', async (req, res) => {
+  const { name, email, phone, password, pin } = req.body;
+
   try {
-    const { name, email, phone, password, pin } = req.body;
-
-    // Check if user already exists
-    const userExists = await pool.query(
-      'SELECT * FROM users WHERE email = $1 OR phone = $2',
-      [email, phone]
-    );
+    // Check if the email already exists
+    const userExists = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
 
     if (userExists.rows.length > 0) {
-      return res.status(400).json({ message: 'User already exists.' });
+      return res.status(400).json({ message: 'Email already exists.' });
     }
 
     // Hash password and PIN
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
-    let pinHash = null;
+    const pinHash = await bcrypt.hash(pin, saltRounds);
 
-    if (pin) {
-      pinHash = await bcrypt.hash(pin, saltRounds);
-    }
+    // Generate unique wallet ID
+    const walletId = 'WALLET-' + uuidv4();
 
     // Insert new user into the database
     await pool.query(
-      'INSERT INTO users (name, email, phone, password_hash, pin_hash) VALUES ($1, $2, $3, $4, $5)',
-      [name, email, phone, passwordHash, pinHash]
+      'INSERT INTO users (name, email, phone, password_hash, pin_hash, wallet_id) VALUES ($1, $2, $3, $4, $5, $6)',
+      [name, email, phone, passwordHash, pinHash, walletId]
     );
 
     res.status(201).json({ message: 'User registered successfully.' });
   } catch (error) {
-    console.error('Error registering user:', error);
+    console.error('Error during sign-up:', error);
     res.status(500).json({ message: 'Server error.' });
   }
 });
 
-// Login a user
+// Login route
 router.post('/login', async (req, res) => {
-    try {
-      const { emailOrPhone, passwordOrPin } = req.body;
-  
-      // Find user by email or phone
-      const userResult = await pool.query(
-        'SELECT * FROM users WHERE email = $1 OR phone = $1',
-        [emailOrPhone]
-      );
-  
-      if (userResult.rows.length === 0) {
-        return res.status(400).json({ message: 'Invalid credentials.' });
-      }
-  
-      const user = userResult.rows[0];
-  
-      // Compare password and PIN
-      const isPasswordMatch = await bcrypt.compare(
-        passwordOrPin,
-        user.password_hash
-      );
-  
-      let isPinMatch = false;
-      if (user.pin_hash) {
-        isPinMatch = await bcrypt.compare(passwordOrPin, user.pin_hash);
-      }
-  
-      if (!isPasswordMatch && !isPinMatch) {
-        return res.status(400).json({ message: 'Invalid credentials.' });
-      }
-  
-      // Generate JWT token
-      const token = jwt.sign(
-        { userId: user.id },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-      );
-  
-      res.json({ token, message: 'Login successful.' });
-    } catch (error) {
-      console.error('Error logging in:', error);
-      res.status(500).json({ message: 'Server error.' });
+  const { email, password } = req.body;
+
+  try {
+    // Retrieve user by email
+    const result = await pool.query('SELECT id, password_hash FROM users WHERE email = $1', [
+      email,
+    ]);
+
+    if (result.rows.length === 0) {
+      return res.status(400).json({ message: 'Invalid email or password.' });
     }
-  });
+
+    const user = result.rows[0];
+
+    // Compare provided password with stored hash
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid email or password.' });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    res.json({ token });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Server error.' });
+  }
+});
+
+// Get user data
+router.get('/user', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const result = await pool.query(
+      'SELECT name, email, phone, wallet_id, profile_icon FROM users WHERE id = $1',
+      [userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    res.json({ user: result.rows[0] });
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ message: 'Server error.' });
+  }
+});
+
+// Update user profile
+router.put('/user', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { name, phone, profile_icon } = req.body;
+
+    await pool.query(
+      'UPDATE users SET name = $1, phone = $2, profile_icon = $3 WHERE id = $4',
+      [name, phone, profile_icon, userId]
+    );
+
+    // Fetch updated user data
+    const result = await pool.query(
+      'SELECT name, email, phone, wallet_id, profile_icon FROM users WHERE id = $1',
+      [userId]
+    );
+
+    res.json({ message: 'Profile updated successfully.', user: result.rows[0] });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Server error.' });
+  }
+});
+
+// Change password
+router.put('/change-password', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { currentPassword, newPassword } = req.body;
+
+    // Get current password hash
+    const result = await pool.query('SELECT password_hash FROM users WHERE id = $1', [userId]);
+
+    const user = result.rows[0];
+
+    // Compare current password
+    const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Current password is incorrect.' });
+    }
+
+    // Hash new password
+    const saltRounds = 10;
+    const newPasswordHash = await bcrypt.hash(newPassword, saltRounds);
+
+    // Update password
+    await pool.query('UPDATE users SET password_hash = $1 WHERE id = $2', [
+      newPasswordHash,
+      userId,
+    ]);
+
+    res.json({ message: 'Password changed successfully.' });
+  } catch (error) {
+    console.error('Error changing password:', error);
+    res.status(500).json({ message: 'Server error.' });
+  }
+});
+
 module.exports = router;

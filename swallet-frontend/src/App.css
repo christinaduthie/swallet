@@ -1,38 +1,71 @@
-.App {
-  text-align: center;
+/* src/App.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.sidebar-container {
+  background-color: #542de8;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding-top: 20px;
+}
+
+.sidebar .nav-link {
   color: white;
+  margin-bottom: 10px;
+  font-size: 1.1em;
 }
 
-.App-link {
-  color: #61dafb;
+.sidebar .nav-link.active,
+.sidebar .nav-link:hover {
+  background-color: #6a3ef0;
+  border-radius: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main-content {
+  padding: 20px;
+}
+
+.navbar {
+  background-color: #542de8;
+}
+
+.navbar-brand,
+.navbar-nav .nav-link {
+  color: white !important;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+}
+
+.profile-section img {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
+
+.profile-section .profile-name {
+  color: white;
+  margin-right: 10px;
+}
+
+.profile-section .btn-view-profile {
+  color: white;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.card {
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.02);
 }
