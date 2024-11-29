@@ -21,7 +21,6 @@ const Sidebar = () => {
   const closeSidebar = () => {
     setExpanded(false);
   };
-
   return (
     <>
       {/* Navbar for small screens */}
@@ -60,6 +59,14 @@ const Sidebar = () => {
             onClick={closeSidebar}
           >
             Add Funds
+          </Nav.Link>
+          <Nav.Link
+            as={Link}
+            to="/cash-in-locations"
+            active={currentPath === '/cash-in-locations'}
+            onClick={closeSidebar}
+          >
+            Cash In Locations
           </Nav.Link>
           {/* Add more navigation links as needed */}
         </Nav>

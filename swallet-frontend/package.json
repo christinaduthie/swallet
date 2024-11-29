@@ -5,9 +5,14 @@
   "dependencies": {
     "axios": "^0.27.2",
     "bootstrap": "^5.1.3",
+    "geolib": "^3.3.4",
+    "leaflet": "^1.9.4",
+    "papaparse": "^5.4.1",
+    "proj4": "^2.15.0",
     "react": "^18.0.0",
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.0.0",
+    "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0"
   },
@@ -16,10 +21,18 @@
     "build": "react-scripts build"
   },
   "eslintConfig": {
-    "extends": ["react-app"]
+    "extends": [
+      "react-app"
+    ]
   },
   "browserslist": {
-    "production": ["defaults"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    "production": [
+      "defaults"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

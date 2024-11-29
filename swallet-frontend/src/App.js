@@ -1,3 +1,5 @@
+// src/App.js
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -8,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import AddFundsPage from './pages/AddFundsPage';
 import MyAccountPage from './pages/MyAccountPage';
+import CashInLocationsPage from './pages/CashInLocationsPage'; // Import the new page
 import AuthProvider from './contexts/AuthContext';
 
 function App() {
@@ -15,13 +18,16 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
+          {/* Public Routes */}
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
+
+          {/* Protected Routes */}
           <Route
             path="/*"
             element={
               <Container fluid className="p-0">
-                <Row noGutters>
+                <Row className="no-gutters">
                   <Sidebar />
                   <Col className="main-content p-4">
                     <Routes>
@@ -49,6 +55,15 @@ function App() {
                           </PrivateRoute>
                         }
                       />
+                      <Route
+                        path="/cash-in-locations"
+                        element={
+                          <PrivateRoute>
+                            <CashInLocationsPage />
+                          </PrivateRoute>
+                        }
+                      />
+                      {/* Add more private routes as needed */}
                     </Routes>
                   </Col>
                 </Row>
