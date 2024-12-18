@@ -34,153 +34,38 @@ const LoginPage = () => {
   };
 
   return (
-    <div
-      className="DesktopLogin"
-      style={{
-        width: '100%',
-        height: '100vh',
-        position: 'relative',
-        background: 'white',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <div
-        className="PLoginDropbox"
-        style={{
-          width: 550,
-          height: 380,
-          background: '#2b0042',
-          borderRadius: 10,
-          position: 'relative',
-          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-        }}
-      >
-        <div
-          className="TLogIn"
-          style={{
-            textAlign: 'center',
-            color: '#fff',
-            fontSize: 24,
-            fontFamily: 'Arial',
-            fontWeight: 700,
-            marginTop: 20,
-          }}
-        >
-          Log In
-        </div>
+    <div className="form-container">
+      <div className="login-signup-box">
+        <div className="login-signup-title">Log In</div>
         {message && (
-          <div
-            style={{
-              color: 'red',
-              textAlign: 'center',
-              marginTop: 10,
-              fontSize: 14,
-            }}
-          >
-            {message}
-          </div>
+          <div className="login-signup-message">{message}</div>
         )}
         <form onSubmit={handleSubmit}>
-          {/* Email Label */}
-          <div
-            className="TEmail"
-            style={{
-              color: '#fff',
-              fontSize: 20,
-              fontFamily: 'Arial',
-              fontWeight: 500,
-              margin: '20px 0 5px 45px',
-            }}
-          >
-            Email
-          </div>
-          {/* Email Input */}
+          <div className="form-label-custom">Email</div>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
-            style={{
-              width: 450,
-              height: 40,
-              marginLeft: 45,
-              background: '#D9D9D9',
-              borderRadius: 12,
-              border: 'none',
-              padding: '10px',
-              outline: 'none',
-            }}
+            className="form-input-custom"
           />
-          {/* Password Label */}
-          <div
-            className="TPassword"
-            style={{
-              color: '#fff',
-              fontSize: 20,
-              fontFamily: 'Arial',
-              fontWeight: 500,
-              margin: '20px 0 5px 45px',
-            }}
-          >
-            Password
-          </div>
-          {/* Password Input */}
+          <div className="form-label-custom">Password</div>
           <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             required
-            style={{
-              width: 450,
-              height: 40,
-              marginLeft: 45,
-              background: '#D9D9D9',
-              borderRadius: 12,
-              border: 'none',
-              padding: '10px',
-              outline: 'none',
-            }}
+            className="form-input-custom"
           />
-          {/* Submit Button */}
-          <button
-            type="submit"
-            style={{
-              width: 450,
-              height: 40,
-              margin: '20px 45px',
-              background: '#FF3EFF',
-              color: 'white',
-              fontSize: 16,
-              fontFamily: 'Arial',
-              fontWeight: 500,
-              borderRadius: 12,
-              border: 'none',
-              cursor: 'pointer',
-            }}
-          >
+          <button type="submit" className="submit-button">
             Generate OTP
           </button>
         </form>
-        {/* Footer Link */}
-        <div
-          style={{
-            textAlign: 'center',
-            color: '#fff',
-            fontSize: 14,
-            fontFamily: 'Arial',
-            fontWeight: 500,
-            marginTop: 10,
-            
-          }}
-        >
+        <div className="login-signup-footer">
           Don’t have an account?{' '}
-          <a href="/signup" style={{ color: '#FF3EFF', textDecoration: 'none' }}>
-            Sign Up
-          </a>
+          <a href="/signup">Sign Up</a>
         </div>
       </div>
     </div>

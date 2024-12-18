@@ -40,16 +40,16 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100">
-      <Card style={{ width: '400px' }}>
+    <div className="signup-container">
+      <Card className="signup-card">
         <Card.Body>
-          <Card.Title className="text-center" style={{ color: '#542de8' }}>
+          <Card.Title className="text-center" style={{ color: '#fff' }}>
             Sign Up
           </Card.Title>
           {message && <Alert variant="info">{message}</Alert>}
           <Form onSubmit={handleSubmit}>
             {/* Form fields */}
-            <Form.Group controlId="formName" className="mb-3">
+            <Form.Group controlId="formName" className="mb-3" style={{ color: '#fff' }}>
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
@@ -59,7 +59,7 @@ const SignUpPage = () => {
                 required
               />
             </Form.Group>
-            <Form.Group controlId="formEmail" className="mb-3">
+            <Form.Group controlId="formEmail" className="mb-3" style={{ color: '#fff' }}>
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
@@ -69,7 +69,7 @@ const SignUpPage = () => {
                 required
               />
             </Form.Group>
-            <Form.Group controlId="formPhone" className="mb-3">
+            <Form.Group controlId="formPhone" className="mb-3" style={{ color: '#fff' }}>
               <Form.Label>Phone</Form.Label>
               <Form.Control
                 type="tel"
@@ -79,7 +79,7 @@ const SignUpPage = () => {
                 required
               />
             </Form.Group>
-            <Form.Group controlId="formPassword" className="mb-3">
+            <Form.Group controlId="formPassword" className="mb-3" style={{ color: '#fff' }}>
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
@@ -89,7 +89,7 @@ const SignUpPage = () => {
                 required
               />
             </Form.Group>
-            <Form.Group controlId="formPin" className="mb-3">
+            <Form.Group controlId="formPin" className="mb-3" style={{ color: '#fff' }}>
               <Form.Label>PIN</Form.Label>
               <Form.Control
                 type="password"
@@ -99,11 +99,11 @@ const SignUpPage = () => {
                 required
               />
             </Form.Group>
-            <Button variant="primary" type="submit" className="w-100">
+            <Button variant="primary" type="submit" className="w-100 signupButton">
               Sign Up
             </Button>
           </Form>
-          <div className="text-center mt-3">
+          <div className="text-center mt-3" style={{ color: '#fff' }}>
             Already have an account? <a href="/login">Log In</a>
           </div>
         </Card.Body>

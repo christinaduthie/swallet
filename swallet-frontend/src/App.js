@@ -8,9 +8,14 @@ import PrivateRoute from './components/PrivateRoute';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
-import AddFundsPage from './pages/AddFundsPage';
+import TransactionsPage from './pages/TransactionsPage';
 import MyAccountPage from './pages/MyAccountPage';
-import CashInLocationsPage from './pages/CashInLocationsPage'; // Import the new page
+import CommunityBanksPage from './pages/CommunityBanksPage'; 
+import LoansPage from './pages/LoansPage';
+import RewardsPage from './pages/RewardsPage';
+import LearnPage from './pages/LearnPage';
+import HelpCenterPage from './pages/HelpCenterPage';
+
 import AuthProvider from './contexts/AuthContext';
 
 function App() {
@@ -29,7 +34,8 @@ function App() {
               <Container fluid className="p-0">
                 <Row className="no-gutters">
                   <Sidebar />
-                  <Col className="main-content p-4">
+                  {/* main-content margin handled in global.css */}
+                  <Col className="p-4">
                     <Routes>
                       <Route
                         path="/"
@@ -40,10 +46,10 @@ function App() {
                         }
                       />
                       <Route
-                        path="/add-funds"
+                        path="/transactions"
                         element={
                           <PrivateRoute>
-                            <AddFundsPage />
+                            <TransactionsPage />
                           </PrivateRoute>
                         }
                       />
@@ -56,14 +62,45 @@ function App() {
                         }
                       />
                       <Route
-                        path="/cash-in-locations"
+                        path="/community-banks"
                         element={
                           <PrivateRoute>
-                            <CashInLocationsPage />
+                            <CommunityBanksPage />
                           </PrivateRoute>
                         }
                       />
-                      {/* Add more private routes as needed */}
+                      <Route
+                        path="/loans"
+                        element={
+                          <PrivateRoute>
+                            <LoansPage />
+                          </PrivateRoute>
+                        }
+                      />
+                      <Route
+                        path="/rewards"
+                        element={
+                          <PrivateRoute>
+                            <RewardsPage />
+                          </PrivateRoute>
+                        }
+                      />
+                      <Route
+                        path="/learn"
+                        element={
+                          <PrivateRoute>
+                            <LearnPage />
+                          </PrivateRoute>
+                        }
+                      />
+                      <Route
+                        path="/help-center"
+                        element={
+                          <PrivateRoute>
+                            <HelpCenterPage />
+                          </PrivateRoute>
+                        }
+                      />
                     </Routes>
                   </Col>
                 </Row>

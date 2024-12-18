@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
-  background-color: #f5f5f5;
+  background-color: #FFF1FF; /* Page background */
 }
 
 a {
@@ -16,7 +16,7 @@ button {
 }
 
 .container {
-  padding: 0;
+  padding: 15px;
 }
 
 .navbar {
@@ -34,122 +34,296 @@ button {
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 0; /* Visible on large screens */
-  width: 250px;
-  padding-top: 20px;
-  background-color: #542de8;
+  width: 300px;
+  padding-top: 40px;
+  padding-left: 40px;
+  background-color: white; 
   overflow-y: auto;
-  transition: transform 0.3s ease-in-out; /* Use transform for better performance */
+  transition: transform 0.3s ease-in-out;
   z-index: 999;
-}
-
-.sidebar .nav-link {
-  color: #fff;
-  margin-bottom: 10px;
-  font-size: 1.1em;
-}
-
-.sidebar .nav-link.active,
-.sidebar .nav-link:hover {
-  background-color: #6a3ef0;
+  border-top-right-radius:20px;
 }
 
 .sidebar .navbar-brand {
-  color: #fff;
-  font-size: 1.5em;
-  padding: 1rem;
+  color: #2B0042;
+  font-size:1.5em;
+  font-weight:800;
+  margin:0;
+  padding:1rem;
 }
 
-.main-content {
-  margin-left: 250px;
-  transition: margin-left 0.3s ease-in-out; /* Transition margin for smooth effect */
+.sidebar .tagline {
+  font-size:0.9em;
+  color:#CC00CC;
+  margin-left:1rem;
+  margin-bottom:35px;
+  font-weight:700;
+}
+
+.sidebar .nav-link {
+  color: #2B0042;
+  margin-bottom:10px;
+  font-size:1.1em;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding-left:20px;
+}
+
+.sidebar .nav-link.active {
+  color:#CC00CC;
+}
+
+.logout-button {
+  position:absolute;
+  bottom:20px;
+  width:80%;
+  left:5%;
+  margin-left:20px;
+}
+
+.overlay {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index:998;
+}
+
+.sidebar.active {
+  transform: translateX(0);
 }
 
 @media (max-width: 991px) {
   .sidebar {
-    transform: translateX(-100%); /* Hide sidebar off the left */
+    transform: translateX(-100%);
   }
   .sidebar.active {
-    transform: translateX(0); /* Slide in sidebar */
+    transform:translateX(0);
   }
   .main-content {
-    margin-left: 0;
+    margin-left:0;
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width:992px) {
   .sidebar {
-    transform: none; /* Sidebar is always visible on large screens */
+    transform:none;
   }
 }
 
-/* Logout button at the bottom */
-.logout-button {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-}
-
-/* Overlay for sidebar */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5); /* Semi-transparent black */
-  z-index: 998; /* Should be less than the sidebar z-index */
-}
-
-/* Card hover effect */
-.card {
-  transition: transform 0.2s, box-shadow 0.2s;
+.main-content {
+  margin-left:300px;
+  transition: margin-left 0.3s ease-in-out;
+  padding:20px;
 }
 
 .card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform:scale(1.02);
+  box-shadow:0 1rem 2rem rgba(0,0,0,0.15);
 }
 
-/* Button styles */
 .btn-primary {
   background-color: #542de8;
   border-color: #542de8;
 }
-
 .btn-primary:hover {
-  background-color: #6a3ef0;
-  border-color: #6a3ef0;
-}
-/* Global CSS Styles */
-
-/* Page Header */
-.page-header {
-  background-color: #f8f9fa;
-  padding: 2rem 1rem;
-  margin-bottom: 2rem;
+  background-color:#6a3ef0;
+  border-color:#6a3ef0;
 }
 
-.page-header h1 {
-  font-size: 2.5rem;
-  margin: 0;
-}
-
-/* Zip Code Input */
-
-
-/* Map Container */
 .map-container {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 1rem;
+  border:1px solid #ddd;
+  border-radius:5px;
+  overflow:hidden;
+  margin-bottom:1rem;
 }
 
-/* Adjust Spinner Size */
-.text-center .spinner-border {
-  width: 3rem;
-  height: 3rem;
+.top-row {
+  display:flex;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+  width:100%;
+  justify-content:space-between;
 }
 
+.top-row .scan-qr {
+  display:flex;align-items:center;gap:5px;
+  color:#310083;font-size:14px;
+}
+.top-row .search-bar {
+  position:relative;width:399px;height:50px;
+}
+.top-row .search-bar input {
+  width:100%;height:100%;
+  background:white;
+  border-radius:15px;
+  border:none;
+  padding-left:15px;
+  padding-right:40px;
+}
+.top-row .search-bar .search-icon {
+  position:absolute;right:10px;top:10px;width:30px;height:30px;background:#310083;border-radius:50%;
+}
+.top-row .icon-box {
+  width:50px;height:50px;
+  background:white;border-radius:15px;
+  display:flex;align-items:center;justify-content:center;
+}
+.top-row .welcome-text {
+  font-size:16px; color:black; font-weight:300;
+}
+.top-row .welcome-text span:last-child {
+  font-weight:600; font-size:18px;
+}
 
+.cards-row {
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.card-title-custom {
+  font-size:18px;
+  color:#600FA0;
+  font-weight:700;
+  text-align:center;
+  margin-bottom:10px;
+}
+
+/* Increased font-size for balance amount to 40px */
+.wallet-balance {
+  text-align:center;
+  font-size:40px;
+  color:#CC00CC;
+  font-weight:700;
+  margin:10px 0;
+}
+
+/* Actions-row with bigger icons and background */
+.actions-row {
+  display:flex;align-items:center;justify-content:space-around;margin-top:20px;
+  background:#310083;
+  padding:20px;
+  border-radius:15px;
+}
+.actions-row .action-icon {
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:70px;height:70px;background:white;border-radius:15px;
+  font-size:14px;color:#CC00CC;font-weight:500;
+  gap:5px;
+}
+.actions-row .action-icon img {
+  width:30px; height:30px;
+}
+
+.recent-tx-table {
+  margin-top:20px;
+}
+
+/* Login & Signup Page Styles */
+.form-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-signup-box {
+  width: 550px;
+  height: 380px;
+  background: #2b0042;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-signup-title {
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.login-signup-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.form-label-custom {
+  color: #fff;
+  font-size: 20px;
+  font-family: Arial, sans-serif;
+  font-weight: 500;
+  margin: 20px 0 5px 45px;
+}
+
+.form-input-custom {
+  width: 450px;
+  height: 40px;
+  margin-left: 45px;
+  background: #D9D9D9;
+  border-radius: 12px;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+
+.submit-button {
+  width: 450px;
+  height: 40px;
+  margin: 20px 45px;
+  background: #FF3EFF;
+  color: white;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  font-weight: 500;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.login-signup-footer {
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.login-signup-footer a {
+  color: #FF3EFF;
+  text-decoration: none;
+}
+
+/* For the Signup page card */
+.signup-container {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  background-color: #ffffff;
+}
+
+.signup-card {
+  width:600px;
+  padding: 30px;
+  border-radius: 15px;
+  background-color: #2b0042;
+}
+.signupButton{
+  margin-top: 15px;
+  height: 50px;
+  background-color: #FF3EFF;
+}
