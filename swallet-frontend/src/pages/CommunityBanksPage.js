@@ -18,6 +18,7 @@ import proj4 from 'proj4';
 import axios from 'axios';
 
 import 'leaflet/dist/leaflet.css';
+import TopBar from '../components/Topbar';
 
 // Fix for default icon issue with Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -240,7 +241,10 @@ const CashInLocationsPage = () => {
   };
 
   return (
+    <>
+   
    <div className='main-content'>
+   <TopBar />
      <Container>
       <h2>Cash In Locations</h2>
 
@@ -351,6 +355,7 @@ const CashInLocationsPage = () => {
       ) : null}
     </Container>
    </div>
+   </>
   );
 };
 

@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const pool = require('../config/db');
 const authenticateToken = require('../middleware/auth');
 const { v4: uuidv4 } = require('uuid');
-
 const router = express.Router();
 
 // Sign-up route
@@ -27,8 +26,8 @@ router.post('/signup', async (req, res) => {
     const pinHash = await bcrypt.hash(pin, saltRounds);
 
     // Generate unique wallet ID
-    const walletId = 'WALLET-' + uuidv4();
-
+    const shortId = uuidv4().split('-')[0]; // Take first segment for shortness
+    const walletId = 'SWALLET-' + shortId;
     // Insert new user into the database
     await pool.query(
       'INSERT INTO users (name, email, phone, password_hash, pin_hash, wallet_id) VALUES ($1, $2, $3, $4, $5, $6)',

@@ -15,7 +15,8 @@ import LoansPage from './pages/LoansPage';
 import RewardsPage from './pages/RewardsPage';
 import LearnPage from './pages/LearnPage';
 import HelpCenterPage from './pages/HelpCenterPage';
-
+import SendToFriendPage from './pages/SendToFriendPage';
+import PaymentPage from './pages/PaymentPage';
 import AuthProvider from './contexts/AuthContext';
 
 function App() {
@@ -101,6 +102,9 @@ function App() {
                           </PrivateRoute>
                         }
                       />
+                      <Route path="/send-to-friend" element={<PrivateRoute><SendToFriendPage /></PrivateRoute>} />
++                     <Route path="/payment" element={<PrivateRoute><PaymentPage /></PrivateRoute>} />
+                    
                     </Routes>
                   </Col>
                 </Row>

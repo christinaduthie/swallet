@@ -1,18 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
-import { Card, Image, Table } from 'react-bootstrap';
+import { Card, Image, Table, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import qrIcon from '../assets/images/qr-icon.svg';
 import notificationIcon from '../assets/images/notification-icon.svg';
 import settingsIcon from '../assets/images/settings-icon.svg';
 import searchIcon from '../assets/images/search-icon.svg';
-import sendIcon from '../assets/images/send-icon.svg';
-import addIcon from '../assets/images/add-icon.svg';
-import moreIcon from '../assets/images/more-icon.svg';
-import defaultProfile from '../assets/images/default-profile.png'; // Placeholder image
+import sendIcon from '../assets/images/sendIcon.svg';
+import addIcon from '../assets/images/addIcon.svg';
+import moreIcon from '../assets/images/moreIcon.svg';
+import defaultProfile from '../assets/images/default-profile.png';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
+import jsPDF from 'jspdf';
 
 const userIcon = L.icon({
   iconUrl:
@@ -28,8 +29,10 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [balance, setBalance] = useState(0.0);
   const [transactions, setTransactions] = useState([]);
-  const [users, setUsers] = useState([]); // state to hold all users
+  const [users, setUsers] = useState([]);
   const [mapInstance, setMapInstance] = useState(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -67,7 +70,6 @@ const HomePage = () => {
     }
   }, [authToken, API_URL]);
 
-  // Fetch all users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -76,7 +78,9 @@ const HomePage = () => {
             Authorization: `Bearer ${authToken}`,
           },
         });
-        setUsers(response.data.users || []);
+        // Exclude current user in quickpay
+        const filteredUsers = response.data.users.filter(u => u.id !== user?.id);
+        setUsers(filteredUsers);
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -85,7 +89,7 @@ const HomePage = () => {
     if (authToken) {
       fetchUsers();
     }
-  }, [authToken, API_URL]);
+  }, [authToken, API_URL, user]);
 
   const handleProfileClick = () => {
     navigate('/my-account');
@@ -95,9 +99,36 @@ const HomePage = () => {
     navigate('/community-banks');
   };
 
+  const filteredTransactions = transactions.filter(tx => {
+    const txDate = new Date(tx.created_at);
+    if (startDate && txDate < new Date(startDate)) return false;
+    if (endDate && txDate > new Date(endDate)) return false;
+    return true;
+  });
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(12);
+    doc.text("Transactions Report", 10, 10);
+    let yPos = 20;
+    doc.text("Date | Description | Status | Mode | Amount | Balance", 10, yPos);
+    yPos += 10;
+    filteredTransactions.forEach((tx) => {
+      const txDate = new Date(tx.created_at).toLocaleString();
+      const recipient = tx.description || 'N/A';
+      const status = 'Completed';
+      const mode = tx.mode || 'N/A';
+      const amt = `$${Number(tx.amount).toFixed(2)}`;
+      const balanceVal = tx.running_balance != null ? `$${Number(tx.running_balance).toFixed(2)}` : 'N/A';
+      doc.text(`${txDate} | ${recipient} | ${status} | ${mode} | ${amt} | ${balanceVal}`, 10, yPos);
+      yPos += 10;
+    });
+    doc.save('transactions.pdf');
+  };
+
   return (
     <div className="main-content">
-      {/* Top Row */}
+      {/* Top bar as requested */}
       <div className="top-row">
         <div className="scan-qr" style={{flex:'1'}}>
           <img src={qrIcon} alt="QR" width="20" height="20"/>
@@ -126,7 +157,7 @@ const HomePage = () => {
 
         <div style={{cursor:'pointer'}} onClick={handleProfileClick}>
           <Image
-            src={user?.profile_icon || '/assets/images/default-profile.png'}
+            src={user?.profile_icon || defaultProfile}
             roundedCircle
             width="50"
             height="50"
@@ -148,7 +179,7 @@ const HomePage = () => {
             <h4 className="card-title-custom">Your Digital Wallet Account</h4>
             <div className="wallet-balance">${Number(balance).toFixed(2)}</div>
             <div className="actions-row">
-              <div className="action-icon">
+              <div className="action-icon" style={{cursor:'pointer'}} onClick={()=>navigate('/send-to-friend')}>
                 <img src={sendIcon} alt="Send"/>
                 <span>Send</span>
               </div>
@@ -170,23 +201,21 @@ const HomePage = () => {
         <Card style={{flex:'1',minWidth:'300px'}}>
           <Card.Body>
             <h4 className="card-title-custom">Cash-in locations</h4>
-            <div style={{cursor:'pointer'}} onClick={handleMapClick}>
-              <div className="map-container" style={{height:'300px'}}>
-                <MapContainer
-                  center={[39.8283, -98.5795]} 
-                  zoom={4}
-                  style={{ height: '100%', width: '100%' }}
-                  whenCreated={setMapInstance}
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <Marker position={[39.8283, -98.5795]} icon={userIcon}>
-                    <Popup>Click map to open Community Banks page</Popup>
-                  </Marker>
-                </MapContainer>
-              </div>
+            <div className="map-container" style={{height:'300px',cursor:'pointer'}} onClick={handleMapClick}>
+              <MapContainer
+                center={[39.8283, -98.5795]}
+                zoom={4}
+                style={{ height: '100%', width: '100%' }}
+                whenCreated={setMapInstance}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={[39.8283, -98.5795]} icon={userIcon}>
+                  <Popup>Click map to open Community Banks page</Popup>
+                </Marker>
+              </MapContainer>
             </div>
           </Card.Body>
         </Card>
@@ -195,10 +224,10 @@ const HomePage = () => {
         <Card style={{flex:'1',minWidth:'300px'}}>
           <Card.Body>
             <h4 className="card-title-custom">Quick Pay</h4>
-            {/* Display all users from db */}
             <div className="users-row" style={{display:'flex',flexWrap:'wrap',gap:'20px',marginTop:'20px'}}>
               {users.map(u => (
-                <div key={u.id} style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
+                <div key={u.id} style={{display:'flex',flexDirection:'column',alignItems:'center',cursor:'pointer'}}
+                     onClick={()=>navigate(`/payment?recipient=${u.wallet_id}`)}>
                   <div style={{
                     width:'50px',
                     height:'50px',
@@ -218,28 +247,37 @@ const HomePage = () => {
         </Card>
       </div>
 
-      {/* Next Row: Recent Transactions */}
+      {/* Recent Transactions */}
       <div className="cards-row" style={{flexDirection:'column'}}>
         <Card>
           <Card.Body>
             <h4 className="card-title-custom">Recent Transactions</h4>
+            {/* Filter and Download inside the card */}
+            <div style={{marginBottom:'20px', display:'flex', gap:'10px', alignItems:'center'}}>
+              <Form.Control type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
+              <Form.Control type="date" value={endDate} onChange={(e)=>setEndDate(e.target.value)} />
+              <Button className="filterButton" onClick={()=>{/* just triggers re-render since we filter in memory */}}>Filter</Button>
+              <Button className="downloadButton" onClick={handleDownloadPDF}>Download</Button>
+            </div>
             <Table striped bordered hover responsive className="recent-tx-table">
               <thead style={{ backgroundColor: '#542de8', color: '#fff' }}>
                 <tr>
                   <th>Transaction Date</th>
-                  <th>Recipient</th>
+                  <th>Description</th>
                   <th>Status</th>
                   <th>Mode</th>
                   <th>Amount</th>
+                  <th>Balance</th>
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((tx) => {
+                {filteredTransactions.map((tx) => {
                   const txDate = new Date(tx.created_at).toLocaleString();
                   const recipient = tx.description || 'N/A';
                   const status = 'Completed';
-                  const mode = tx.type || 'N/A';
+                  const mode = tx.mode || 'N/A';
                   const amt = `$${Number(tx.amount).toFixed(2)}`;
+                  const balanceVal = tx.running_balance != null ? `$${Number(tx.running_balance).toFixed(2)}` : 'N/A';
                   return (
                     <tr key={tx.id}>
                       <td>{txDate}</td>
@@ -247,6 +285,7 @@ const HomePage = () => {
                       <td>{status}</td>
                       <td>{mode}</td>
                       <td>{amt}</td>
+                      <td>{balanceVal}</td>
                     </tr>
                   );
                 })}

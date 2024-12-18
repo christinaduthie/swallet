@@ -139,6 +139,7 @@ button {
   margin-bottom:1rem;
 }
 
+/* Top row (old UI) */
 .top-row {
   display:flex;
   align-items:center;
@@ -152,6 +153,13 @@ button {
 .top-row .scan-qr {
   display:flex;align-items:center;gap:5px;
   color:#310083;font-size:14px;
+}
+.scan-qr{
+  background-color: #fff;
+  border-radius: 15px;
+  width: 100%;
+  height: 50px;
+  padding-left: 15px;
 }
 .top-row .search-bar {
   position:relative;width:399px;height:50px;
@@ -179,6 +187,10 @@ button {
   font-weight:600; font-size:18px;
 }
 
+.card{
+  padding: 15px;
+  border-radius: 10px;
+}
 .cards-row {
   display:flex;
   flex-wrap:wrap;
@@ -194,10 +206,10 @@ button {
   margin-bottom:10px;
 }
 
-/* Increased font-size for balance amount to 40px */
+/* Increased font-size for balance amount to 60px */
 .wallet-balance {
   text-align:center;
-  font-size:40px;
+  font-size:60px;
   color:#CC00CC;
   font-weight:700;
   margin:10px 0;
@@ -206,7 +218,7 @@ button {
 /* Actions-row with bigger icons and background */
 .actions-row {
   display:flex;align-items:center;justify-content:space-around;margin-top:20px;
-  background:#310083;
+  background:#FFF1FF;
   padding:20px;
   border-radius:15px;
 }
@@ -326,4 +338,63 @@ button {
   margin-top: 15px;
   height: 50px;
   background-color: #FF3EFF;
+}
+
+/* User list classes */
+.user-list {
+  margin-top:20px;
+}
+.user-list-item {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background-color:#fff;
+  padding:10px;
+  border-radius:5px;
+  margin-bottom:10px;
+}
+.user-list-name {
+  color:#600FA0;
+  font-size:15px;
+  font-family:Inter,sans-serif;
+  font-weight:400;
+}
+.user-list-buttons {
+  display:flex;
+  gap:10px;
+}
+.user-list-button {
+  background:#600FA0;
+  border-radius:5px;
+  color:white;
+  font-size:11px;
+  font-family:Inter,sans-serif;
+  font-weight:400;
+  padding:5px 10px;
+  cursor:pointer;
+  border:none;
+}
+.downloadButton{
+  width: 250px;
+  height: 40px;
+  background: #FF3EFF;
+  color: white;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  font-weight: 500;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.filterButton{
+  width: 250px;
+  height: 40px;
+  background: #FF3EFF;
+  color: white;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  font-weight: 500;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
 }
