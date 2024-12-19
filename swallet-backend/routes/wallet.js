@@ -1,5 +1,3 @@
-// routes/wallet.js
-
 const express = require('express');
 const pool = require('../config/db');
 const authenticateToken = require('../middleware/auth');
@@ -11,11 +9,11 @@ router.get('/', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
 
-    // Get wallet balance
+   
     const result = await pool.query('SELECT balance FROM wallets WHERE user_id = $1', [userId]);
 
     if (result.rows.length === 0) {
-      // If wallet doesn't exist, create one with balance 0.00
+      
       await pool.query('INSERT INTO wallets (user_id, balance) VALUES ($1, $2)', [userId, 0.0]);
       return res.json({ balance: 0.0 });
     }
@@ -32,7 +30,7 @@ router.get('/transactions', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
 
-    // Get transactions
+   
     const result = await pool.query(
       'SELECT * FROM transactions WHERE user_id = $1 ORDER BY created_at DESC',
       [userId]
@@ -45,6 +43,5 @@ router.get('/transactions', authenticateToken, async (req, res) => {
   }
 });
 
-// Add other wallet routes as needed
 
 module.exports = router;

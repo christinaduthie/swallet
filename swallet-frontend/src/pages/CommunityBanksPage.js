@@ -1,4 +1,3 @@
-// src/pages/CashInLocationsPage.js
 
 import React, { useEffect, useState, useCallback } from 'react';
 import {
@@ -20,7 +19,6 @@ import axios from 'axios';
 import 'leaflet/dist/leaflet.css';
 import TopBar from '../components/Topbar';
 
-// Fix for default icon issue with Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -31,7 +29,6 @@ L.Icon.Default.mergeOptions({
     'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-// Custom icon for user's location (red marker)
 const userIcon = L.icon({
   iconUrl:
     'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
@@ -45,7 +42,6 @@ const userIcon = L.icon({
   shadowSize: [41, 41],
 });
 
-// Custom icon for Cash In Locations (default blue marker)
 const storeIcon = L.icon({
   iconUrl:
     'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
@@ -59,10 +55,10 @@ const storeIcon = L.icon({
   shadowSize: [41, 41],
 });
 
-const sourceProj = 'EPSG:3857'; // Adjust based on your data
+const sourceProj = 'EPSG:3857'; 
 const destProj = 'WGS84';
 
-const MAX_DISTANCE = 80 * 1000; // 80 kilometers in meters
+const MAX_DISTANCE = 80 * 1000; 
 
 const CashInLocationsPage = () => {
   const [userLocation, setUserLocation] = useState(null);
@@ -72,7 +68,7 @@ const CashInLocationsPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [walmartStores, setWalmartStores] = useState([]);
   const [zipCode, setZipCode] = useState('');
-  const [mapCenter, setMapCenter] = useState([39.8283, -98.5795]); // Center of USA
+  const [mapCenter, setMapCenter] = useState([39.8283, -98.5795]);
   const [mapZoom, setMapZoom] = useState(4);
   const [mapInstance, setMapInstance] = useState(null);
 
@@ -175,7 +171,7 @@ const CashInLocationsPage = () => {
   useEffect(() => {
     if (searchLocation && walmartStores.length > 0) {
       setMapCenter([searchLocation.latitude, searchLocation.longitude]);
-      setMapZoom(14); // Increase zoom level
+      setMapZoom(14); 
       findNearestStore(searchLocation.latitude, searchLocation.longitude);
     }
   }, [searchLocation, walmartStores, findNearestStore]);
@@ -228,9 +224,9 @@ const CashInLocationsPage = () => {
         const { lat, lng } = response.data.results[0].geometry;
         setSearchLocation({ latitude: lat, longitude: lng });
         setMapCenter([lat, lng]);
-        setMapZoom(14); // Increase zoom level to zoom in closer
+        setMapZoom(14); 
         findNearestStore(lat, lng);
-        setErrorMessage(''); // Clear any previous error messages
+        setErrorMessage('');
       } else {
         setErrorMessage('Invalid zip code. Please try again.');
       }
@@ -250,7 +246,6 @@ const CashInLocationsPage = () => {
 
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 
-      {/* Zip Code Search Form */}
       <Form className="mb-3" onSubmit={handleZipCodeSearch}>
         <Row className="align-items-center justify-content-center">
           <Col xs="auto">
@@ -302,7 +297,6 @@ const CashInLocationsPage = () => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              {/* User's Location Marker */}
               {userLocation && !searchLocation && (
                 <Marker
                   position={[userLocation.latitude, userLocation.longitude]}

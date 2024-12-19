@@ -1,5 +1,3 @@
-// routes/auth.js
-
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -28,7 +26,6 @@ router.post('/signup', async (req, res) => {
     // Generate unique wallet ID
     const shortId = uuidv4().split('-')[0]; // Take first segment for shortness
     const walletId = 'SWALLET-' + shortId;
-    // Insert new user into the database
     await pool.query(
       'INSERT INTO users (name, email, phone, password_hash, pin_hash, wallet_id) VALUES ($1, $2, $3, $4, $5, $6)',
       [name, email, phone, passwordHash, pinHash, walletId]
@@ -57,7 +54,7 @@ router.post('/login', async (req, res) => {
 
     const user = result.rows[0];
 
-    // Compare provided password with stored hash
+    
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!isMatch) {
@@ -138,7 +135,7 @@ router.put('/change-password', authenticateToken, async (req, res) => {
       return res.status(400).json({ message: 'Current password is incorrect.' });
     }
 
-    // Hash new password
+    
     const saltRounds = 10;
     const newPasswordHash = await bcrypt.hash(newPassword, saltRounds);
 
@@ -154,5 +151,30 @@ router.put('/change-password', authenticateToken, async (req, res) => {
     res.status(500).json({ message: 'Server error.' });
   }
 });
-
+router.post('/verify-pin', authenticateToken, async (req, res) => {
+     try {
+       const userId = req.user.userId;
+       const { pin } = req.body;
+       if (!pin) {
+         return res.status(400).json({ message: 'PIN is required.' });
+       }
+  
+       const userRes = await pool.query('SELECT pin_hash FROM users WHERE id=$1', [userId]);
+       if (userRes.rows.length === 0) {
+         return res.status(404).json({ message: 'User not found.' });
+       }
+  
+      const pinHash = userRes.rows[0].pin_hash;
+      const bcrypt = require('bcrypt');
+       const isMatch = await bcrypt.compare(pin, pinHash);
+       if (!isMatch) {
+         return res.status(401).json({ message: 'Invalid PIN.' });
+       }
+  
+       res.json({ message: 'PIN verified successfully.' });
+     } catch (error) {
+       console.error('Error verifying PIN:', error);
+       res.status(500).json({ message: 'Server error verifying PIN.' });
+     }
+   });
 module.exports = router;

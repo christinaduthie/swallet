@@ -1,10 +1,8 @@
-// src/components/TopBar.js
 import React, { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-// Import icons
 import qrIcon from '../assets/images/qr-icon.svg';
 import notificationIcon from '../assets/images/notification-icon.svg';
 import settingsIcon from '../assets/images/settings-icon.svg';

@@ -82,7 +82,6 @@ const HomePage = () => {
             Authorization: `Bearer ${authToken}`,
           },
         });
-        // Exclude current user in quickpay
         const filteredUsers = response.data.users.filter(u => u.id !== user?.id);
         setUsers(filteredUsers);
       } catch (error) {
@@ -132,7 +131,6 @@ const HomePage = () => {
 
   return (
     <div className="main-content">
-      {/* Top bar as requested */}
       <div className="top-row">
         <div className="scan-qr" style={{flex:'1'}}>
           <img src={qrIcon} alt="QR" width="20" height="20"/>
@@ -169,7 +167,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Two Cards Row */}
       <div className="cards-row">
         <Card style={{flex:'1',minWidth:'300px'}}>
           <Card.Body>
@@ -183,24 +180,23 @@ const HomePage = () => {
             <h4 className="card-title-custom">{t('digitalWalletAccount', language)}</h4>
             <div className="wallet-balance">${Number(balance).toFixed(2)}</div>
             <div className="actions-row">
-              <div className="action-icon" style={{cursor:'pointer'}} onClick={()=>navigate('/send-to-friend')}>
-                <img src={sendIcon} alt="Send"/>
-                <span>{t('send', language)}</span>
-              </div>
-              <div className="action-icon">
-                <img src={addIcon} alt="Add"/>
-                <span>{t('add', language)}</span>
-              </div>
-              <div className="action-icon">
-                <img src={moreIcon} alt="More"/>
-                <span>{t('more', language)}</span>
-              </div>
+            <div className="action-icon" style={{ cursor: "pointer" }} onClick={() => (window.location.href = "/send-to-friend")}>
+                    <img src={sendIcon}style={{backgroundColor: "#fff",height: "60px",width: "60px",padding: "15px",borderRadius: "15px",}}alt="Add"/>
+                    <div>{t('send', language)}</div>
+                  </div>
+              <div className="action-icon" style={{ cursor: "pointer" }} onClick={() => (window.location.href = "/send-to-friend")}>
+                    <img src={addIcon}style={{backgroundColor: "#fff",height: "60px",width: "60px",padding: "15px",borderRadius: "15px",}}alt="Add"/>
+                    <div>{t('add', language)}</div>
+                  </div>
+                  <div className="action-icon" style={{ cursor: "pointer" }} onClick={() => (window.location.href = "/send-to-friend")}>
+                    <img src={moreIcon}style={{backgroundColor: "#fff",height: "60px",width: "60px",padding: "15px",borderRadius: "15px",}}alt="Add"/>
+                    <div>{t('more', language)}</div>
+                  </div>
             </div>
           </Card.Body>
         </Card>
       </div>
 
-      {/* Next Row: Cash-in locations and Quick Pay */}
       <div className="cards-row">
         <Card style={{flex:'1',minWidth:'300px'}}>
           <Card.Body>
@@ -224,7 +220,6 @@ const HomePage = () => {
           </Card.Body>
         </Card>
 
-        {/* Quick Pay */}
         <Card style={{flex:'1',minWidth:'300px'}}>
           <Card.Body>
             <h4 className="card-title-custom">{t('quickPay', language)}</h4>
@@ -251,12 +246,10 @@ const HomePage = () => {
         </Card>
       </div>
 
-      {/* Recent Transactions */}
       <div className="cards-row" style={{flexDirection:'column'}}>
         <Card>
           <Card.Body>
             <h4 className="card-title-custom">{t('recentTransactions', language)}</h4>
-            {/* Filter and Download inside the card */}
             <div style={{marginBottom:'20px', display:'flex', gap:'10px', alignItems:'center'}}>
               <Form.Control type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
               <Form.Control type="date" value={endDate} onChange={(e)=>setEndDate(e.target.value)} />

@@ -106,7 +106,6 @@ const MyAccountPage = () => {
       <Card className="mb-4">
         <Card.Body>
           <Form onSubmit={handleUpdateProfile}>
-            {/* Language Selection */}
             <Form.Group controlId="formLanguage" className="mb-3">
               <Form.Label>{t('languageLabel', language)}</Form.Label>
               <Form.Select value={language} onChange={handleLanguageChange}>

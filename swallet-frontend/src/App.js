@@ -25,11 +25,9 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            {/* Public Routes */}
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
 
-            {/* Protected Routes */}
             <Route
               path="/*"
               element={
@@ -47,7 +45,6 @@ function App() {
                         <Route path="/learn" element={<PrivateRoute><LearnPage /></PrivateRoute>} />
                         <Route path="/help-center" element={<PrivateRoute><HelpCenterPage /></PrivateRoute>} />
 
-                        {/* Ensure send-to-friend and payment routes are here */}
                         <Route path="/send-to-friend" element={<PrivateRoute><SendToFriendPage /></PrivateRoute>} />
                         <Route path="/payment" element={<PrivateRoute><PaymentPage /></PrivateRoute>} />
                       </Routes>

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
@@ -15,7 +16,6 @@ export default function LoansPage() {
       headers: { Authorization: `Bearer ${authToken}` }
     })
     .then(res => {
-      console.log('Loan info from API:', res.data); // Debug line
       setScore(res.data.score);
       setEligibility(res.data.eligibility);
     })
@@ -23,14 +23,29 @@ export default function LoansPage() {
   }, [authToken]);
 
   return (
-    <div className="main-content">
+    <div className="main-content loans-page">
       <TopBar />
-      <h2>Loans</h2>
-      <Card style={{maxWidth:'400px', padding:'20px'}}>
-        <h4>Your Score: {score}</h4>
-        <h4>Eligible Loan Amount: ${eligibility}</h4>
-        <Button disabled={eligibility === 0}>Request Loan</Button>
-      </Card>
+      <div className="microloans-title">Microloans</div>
+
+      <div className="loan-cards-row">
+        <Card className="loan-card">
+          <div className="loan-card-title">Your Score</div>
+          <div className="loan-card-value">{score}</div>
+        </Card>
+        <Card className="loan-card">
+          <div className="loan-card-title">Credit Available</div>
+          <div className="loan-card-value">${eligibility}</div>
+        </Card>
+      </div>
+
+      <div className="loan-cards-row">
+        <Card className="loan-card">
+          <Button variant="primary" className="repay-loan-button">
+            Repay Loan
+          </Button>
+        </Card>
+        <Card className="loan-card"></Card>
+      </div>
     </div>
   );
 }

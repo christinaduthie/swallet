@@ -1,5 +1,3 @@
-// routes/checkDeposits.js
-
 const express = require('express');
 const pool = require('../config/db');       
 const clientDbPool = require('../config/clientDb');
@@ -33,7 +31,7 @@ async function performOCRWithOcrSpace(base64Image) {
   }
 
   const parsedText = ocrResult.ParsedResults?.[0]?.ParsedText || '';
-  console.log('Backend: Raw OCR Extracted Text:', parsedText); // Log the text in backend console
+  console.log('Backend: Raw OCR Extracted Text:', parsedText); 
   return parsedText;
 }
 
@@ -46,7 +44,7 @@ router.post('/ocr-only', authenticateToken, async (req, res) => {
     }
 
     const extractedText = await performOCRWithOcrSpace(frontImage);
-    // Log if extractedText is empty or not
+    
     console.log('Backend: extractedText length:', extractedText.length);
 
     res.json({

@@ -1,6 +1,6 @@
 const pool = require('../config/db');
 
-// Weights
+// weights
 const Wf = 0.3;
 const Wa = 0.3;
 const Wb = 0.4;

@@ -24,7 +24,6 @@ const SendToFriendPage = () => {
       headers: { Authorization: `Bearer ${authToken}` },
     })
       .then(res => {
-        // Filter out the current logged in user
         const filteredUsers = res.data.users.filter(u => u.id !== user?.id);
         setUsers(filteredUsers);
       })

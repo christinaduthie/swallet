@@ -229,7 +229,7 @@ button {
 .actions-row .action-icon {
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   width:100px;height:75px;
-  background:white;
+  
   border-radius:15px;
   font-size:13px;
   color:#CC00CC;font-weight:500;
@@ -415,4 +415,123 @@ button {
   color:#600FA0;
   font-weight:700;
 
+}
+
+.help-center-title {
+  text-align: center;
+  color: #310083;
+  font-size: 32px;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/* Subtitle text styling for the two cards below the title */
+.help-subtitle {
+  color: #600FA0;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: Inter, sans-serif;
+  word-wrap: break-word;
+}
+
+/* How can we help you section */
+.help-center-section-title {
+  text-align: center;
+  color: #600FA0;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: Inter, sans-serif;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+/* Icons row */
+.help-icons-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.help-icon-item {
+  text-align: center;
+  height: 60px;
+  padding: 5px;
+  border-radius: 15px;
+  color: #600FA0;
+  font-size: 15px;
+  font-weight: 500;
+  margin-right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* LoansPage styling */
+
+/* Title for Microloans */
+.microloans-title {
+  width: 508px;
+  left: 600px;
+  position: absolute;
+  text-align: center;
+  color: #600FA0;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 20px auto;
+}
+
+/* Loan cards row */
+.loan-cards-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 90px;
+}
+
+/* Loan card styling */
+.loan-card {
+  width: 508px;
+  text-align: center;
+  color: #600FA0;
+  font-size: 18px;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Title within loan cards */
+.loan-card-title {
+  font-size: 18px;
+  color: #600FA0;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* Value within loan cards (score or credit amount) */
+.loan-card-value {
+  margin-top: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #600FA0;
+  background-color: #FFF1FF;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 40px;
+}
+
+/* Repay Loan Button */
+.repay-loan-button {
+  margin-top: 20px;
+  background-color: #600FA0;
+  border: none;
+  font-weight: 700;
 }

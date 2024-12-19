@@ -1,14 +1,15 @@
+
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { Nav, Navbar, Button } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 
-// Import icons
+
 import homeIcon from '../assets/images/homeIcon.svg';
 import transactionsIcon from '../assets/images/transactionsIcon.svg';
 import communityBankIcon from '../assets/images/communityBankIcon.svg';
-import logoIcon from '../assets/images/logoIcon.svg'; 
-import loanIcon from '../assets/images/loanIcon.svg'; // Add these icons
+import logoIcon from '../assets/images/logoIcon.svg';
+import loanIcon from '../assets/images/loanIcon.svg';
 import rewardsIcon from '../assets/images/rewardsIcon.svg';
 import learnIcon from '../assets/images/learnIcon.svg';
 import helpIcon from '../assets/images/helpIcon.svg';
@@ -34,7 +35,7 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Navbar for small screens */}
+
       <Navbar
         expand="lg"
         variant="dark"
@@ -49,7 +50,6 @@ const Sidebar = () => {
       {expanded && <div className="overlay" onClick={closeSidebar}></div>}
 
       <div className={`sidebar ${expanded ? 'active' : ''}`}>
-        {/* Logo and tagline */}
         <Navbar.Brand as={Link} to="/" className="sidebar-logo navbar-brand">
           <img src={logoIcon} alt="Swallet Logo" style={{width:'40px',marginRight:'10px'}}/>
           <span style={{color:'#600FA0'}}>SWallet</span>
@@ -125,6 +125,11 @@ const Sidebar = () => {
         <Button variant="danger" className="logout-button" onClick={handleLogout}>
           Logout
         </Button>
+
+        <div className="sidebar-footer text-center mt-3" style={{fontSize: '10px', color: '#6c757d', marginTop:'40s0px'}}>
+          <div>SWallet Payments v2.1</div>
+          <div>Developed at Mango Labs</div>
+        </div>
       </div>
     </>
   );

@@ -1,4 +1,3 @@
-// config/clientDb.js
 const { Pool } = require('pg');
 
 const clientDbPool = new Pool({

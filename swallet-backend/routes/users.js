@@ -1,9 +1,8 @@
-// routes/users.js
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db'); // Adjust path to your db config
+const db = require('../config/db'); 
 
-// GET /api/users - Returns a list of all users
+
 router.get('/', async (req, res) => {
   try {
     const result = await db.query('SELECT id, name,email, phone, wallet_id, profile_icon FROM users');
@@ -13,8 +12,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Server error.' });
   }
 });
-// Check if user by swallet id exists
-// routes/users.js
+
 router.get('/check/:swalletId', async (req, res) => {
     const { swalletId } = req.params;
     try {
