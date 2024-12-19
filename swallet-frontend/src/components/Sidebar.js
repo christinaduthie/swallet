@@ -51,10 +51,10 @@ const Sidebar = () => {
       <div className={`sidebar ${expanded ? 'active' : ''}`}>
         {/* Logo and tagline */}
         <Navbar.Brand as={Link} to="/" className="sidebar-logo navbar-brand">
-          <img src={logoIcon} alt="Swallet Logo" style={{width:'30px',marginRight:'10px'}}/>
-          <span style={{color:'#600FA0'}}>Swallet</span>
+          <img src={logoIcon} alt="Swallet Logo" style={{width:'40px',marginRight:'10px'}}/>
+          <span style={{color:'#600FA0'}}>SWallet</span>
         </Navbar.Brand>
-        <div className="tagline">your digital companion</div>
+        <div className="tagline">Your Wallet, Your World </div>
 
         <Nav defaultActiveKey="/" className="flex-column">
           <Nav.Link

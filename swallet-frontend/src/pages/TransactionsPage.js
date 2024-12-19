@@ -1,9 +1,14 @@
+
 // import React, { useState, useContext } from 'react';
 // import { Container, Form, Button, Card, Alert } from 'react-bootstrap';
 // import axios from 'axios';
 // import { AuthContext } from '../contexts/AuthContext';
 // import { loadStripe } from '@stripe/stripe-js';
 // import { Elements, useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+
+// import TopBar from '../components/Topbar';
+// import sendIcon from '../assets/images/sendIcon.svg';  // Make sure you have these icons in your assets
+// import moreIcon from '../assets/images/moreIcon.svg';  // Make sure you have these icons in your assets
 
 // const stripePromise = loadStripe('pk_test_51QXC5nAWCC9o3DXwlovhvm07MexKRMik1Eg8vWN4eNPP34DljL7WTKBPZq1a9B4w7lc9anOJvADuhTrkWFYf2u4o00Y8XziX9o'); // Replace with your publishable key
 
@@ -193,9 +198,7 @@
 //   return (
 //     <Card style={{ width: '600px' }} className="p-4">
 //       <Card.Body>
-//         <Card.Title className="text-center" style={{ color: '#542de8', fontSize: '2em' }}>
-//           Add Funds
-//         </Card.Title>
+        
 //         {message && <Alert variant="info">{message}</Alert>}
 //         <Form>
 //           <Form.Group className="mb-3">
@@ -245,12 +248,64 @@
 
 // export default function TransactionsPage() {
 //   const { authToken } = useContext(AuthContext);
+
 //   return (
-//     <Container className="d-flex justify-content-center align-items-center min-vh-100">
-//       <Elements stripe={stripePromise}>
-//         <AddFundsForm authToken={authToken} />
-//       </Elements>
-//     </Container>
+//     <>
+      
+//       <div className="main-content">
+//       <TopBar />
+//         <Container className="d-flex justify-content-start align-items-start" style={{minHeight:'80vh', gap:'20px', flexWrap:'wrap'}}>
+//           {/* Add Funds Card */}
+//           <Elements stripe={stripePromise}>
+//             <div style={{flex:'1', minWidth:'300px'}}>
+//               <div className="card" style={{marginBottom:'20px'}}>
+//                 <div className="card-body">
+//                   <h4 className="card-title-custom">Add Funds</h4>
+//                   <AddFundsForm authToken={authToken} />
+//                 </div>
+//               </div>
+//             </div>
+//           </Elements>
+
+//           {/* Transfer Money Card */}
+//           <div style={{flex:'1', minWidth:'300px'}}>
+//             <div className="card" style={{marginBottom:'20px'}}>
+//               <div className="card-body">
+//                 <h4 className="card-title-custom">Transfer Money</h4>
+//                 <div className="actions-row" style={{marginTop:'20px'}}>
+//                   <div className="action-icon">
+//                     <img src={sendIcon} alt="Pay Bill"/>
+//                     <span>Pay Bill</span>
+//                   </div>
+//                   <div className="action-icon" style={{cursor:'pointer'}} onClick={()=> window.location.href='/send-to-friend'}>
+//                     <img src={sendIcon} alt="Send to friend"/>
+//                     <span>Send to friend</span>
+//                   </div>
+//                   <div className="action-icon">
+//                     <img src={sendIcon} alt="Online Shopping"/>
+//                     <span>Online Shopping</span>
+//                   </div>
+//                 </div>
+//                 <div className="actions-row" style={{marginTop:'20px'}}>
+//                   <div className="action-icon">
+//                     <img src={sendIcon} alt="QR Payment"/>
+//                     <span>QR Payment</span>
+//                   </div>
+//                   <div className="action-icon">
+//                     <img src={sendIcon} alt="Zelle"/>
+//                     <span>Zelle</span>
+//                   </div>
+//                   <div className="action-icon">
+//                     <img src={moreIcon} alt="More"/>
+//                     <span>More</span>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </Container>
+//       </div>
+//     </>
 //   );
 // }
 import React, { useState, useContext } from 'react';
@@ -261,8 +316,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 
 import TopBar from '../components/Topbar';
-import sendIcon from '../assets/images/sendIcon.svg';  // Make sure you have these icons in your assets
-import moreIcon from '../assets/images/moreIcon.svg';  // Make sure you have these icons in your assets
+import sendIcon from '../assets/images/sendIcon.svg';
+import moreIcon from '../assets/images/moreIcon.svg';
 
 const stripePromise = loadStripe('pk_test_51QXC5nAWCC9o3DXwlovhvm07MexKRMik1Eg8vWN4eNPP34DljL7WTKBPZq1a9B4w7lc9anOJvADuhTrkWFYf2u4o00Y8XziX9o'); // Replace with your publishable key
 
@@ -449,56 +504,51 @@ function AddFundsForm({ authToken }) {
     setMessage('');
   };
 
+  // Removed the card wrapper here, just return the form elements.
   return (
-    <Card style={{ width: '600px' }} className="p-4">
-      <Card.Body>
-        <Card.Title className="text-center" style={{ color: '#542de8', fontSize: '2em' }}>
-          Add Funds
-        </Card.Title>
-        {message && <Alert variant="info">{message}</Alert>}
-        <Form>
-          <Form.Group className="mb-3">
-            <Form.Check
-              type="radio"
-              label="Bank"
-              name="fundOption"
-              value="bank"
-              onChange={handleOptionChange}
-              checked={selectedOption === 'bank'}
-            />
-            <Form.Check
-              type="radio"
-              label="Check deposit"
-              name="fundOption"
-              value="check"
-              onChange={handleOptionChange}
-              checked={selectedOption === 'check'}
-            />
-            <Form.Check
-              type="radio"
-              label="CommunityBank"
-              name="fundOption"
-              value="community"
-              onChange={handleOptionChange}
-              checked={selectedOption === 'community'}
-            />
-          </Form.Group>
+    <>
+      {message && <Alert variant="info">{message}</Alert>}
+      <Form>
+        <Form.Group className="mb-3">
+          <Form.Check
+            type="radio"
+            label="Bank"
+            name="fundOption"
+            value="bank"
+            onChange={handleOptionChange}
+            checked={selectedOption === 'bank'}
+          />
+          <Form.Check
+            type="radio"
+            label="Check deposit"
+            name="fundOption"
+            value="check"
+            onChange={handleOptionChange}
+            checked={selectedOption === 'check'}
+          />
+          <Form.Check
+            type="radio"
+            label="CommunityBank"
+            name="fundOption"
+            value="community"
+            onChange={handleOptionChange}
+            checked={selectedOption === 'community'}
+          />
+        </Form.Group>
 
-          {selectedOption === 'bank' && (
-            <BankPaymentForm authToken={authToken} />
-          )}
+        {selectedOption === 'bank' && (
+          <BankPaymentForm authToken={authToken} />
+        )}
 
-          {selectedOption === 'check' && (
-            <CheckDepositForm authToken={authToken} API_URL={API_URL} />
-          )}
+        {selectedOption === 'check' && (
+          <CheckDepositForm authToken={authToken} API_URL={API_URL} />
+        )}
 
-          {selectedOption === 'community' && (
-            <Alert variant="info">CommunityBank feature coming soon!</Alert>
-          )}
-
-        </Form>
-      </Card.Body>
-    </Card>
+        {selectedOption === 'community' && (
+          <Alert variant="info">CommunityBank feature coming soon!</Alert>
+        )}
+      </Form>
+    </>
   );
 }
 
@@ -507,10 +557,10 @@ export default function TransactionsPage() {
 
   return (
     <>
-      
       <div className="main-content">
-      <TopBar />
+        <TopBar />
         <Container className="d-flex justify-content-start align-items-start" style={{minHeight:'80vh', gap:'20px', flexWrap:'wrap'}}>
+
           {/* Add Funds Card */}
           <Elements stripe={stripePromise}>
             <div style={{flex:'1', minWidth:'300px'}}>

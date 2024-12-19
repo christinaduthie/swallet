@@ -118,18 +118,22 @@ button {
   padding:20px;
 }
 
+/* Remove card hover scale to prevent overlap */
 .card:hover {
-  transform:scale(1.02);
-  box-shadow:0 1rem 2rem rgba(0,0,0,0.15);
+  /* Remove the scaling to prevent overlap
+     If you still want scaling, ensure enough gap between cards */
+  /* transform:scale(1.02);
+  box-shadow:0 1rem 2rem rgba(0,0,0,0.15); */
+  box-shadow:0 0.5rem 1rem rgba(0,0,0,0.1);
 }
 
 .btn-primary {
-  background-color: #542de8;
-  border-color: #542de8;
+  background-color: #600FA0;
+  border-color: #600FA0;
 }
 .btn-primary:hover {
-  background-color:#6a3ef0;
-  border-color:#6a3ef0;
+  background-color:#CC00CC;
+  border-color:#CC00CC;
 }
 
 .map-container {
@@ -224,16 +228,24 @@ button {
 }
 .actions-row .action-icon {
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  width:70px;height:70px;background:white;border-radius:15px;
-  font-size:14px;color:#CC00CC;font-weight:500;
+  width:100px;height:75px;
+  background:white;
+  border-radius:15px;
+  font-size:13px;
+  color:#CC00CC;font-weight:500;
   gap:5px;
 }
 .actions-row .action-icon img {
-  width:30px; height:30px;
+  width:25px; height:25px;
 }
 
 .recent-tx-table {
   margin-top:20px;
+}
+
+/* New class to ensure equal width for transaction cards */
+.transaction-card {
+  width:600px;
 }
 
 /* Login & Signup Page Styles */
@@ -377,7 +389,7 @@ button {
 .downloadButton{
   width: 250px;
   height: 40px;
-  background: #FF3EFF;
+  background: #600FA0;
   color: white;
   font-size: 16px;
   font-family: Arial, sans-serif;
@@ -389,7 +401,7 @@ button {
 .filterButton{
   width: 250px;
   height: 40px;
-  background: #FF3EFF;
+  background: #600FA0;
   color: white;
   font-size: 16px;
   font-family: Arial, sans-serif;
@@ -397,4 +409,10 @@ button {
   border-radius: 10px;
   border: none;
   cursor: pointer;
+}
+.heading{
+  font-size:18px;
+  color:#600FA0;
+  font-weight:700;
+
 }

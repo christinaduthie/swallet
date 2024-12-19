@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { LanguageContext } from '../contexts/LanguageContext';
+import { t } from '../i18n';
 
 const SignUpPage = () => {
+  const { language, setLanguage } = useContext(LanguageContext);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,11 +22,15 @@ const SignUpPage = () => {
     setMessage('');
   };
 
+  const handleLanguageChange = (e) => {
+    setLanguage(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post(`${API_URL}/api/auth/signup`, formData);
-      setMessage('Registration successful! Please log in.');
+      setMessage(t('userRegistered', language));
       setFormData({
         name: '',
         email: '',
@@ -44,13 +51,20 @@ const SignUpPage = () => {
       <Card className="signup-card">
         <Card.Body>
           <Card.Title className="text-center" style={{ color: '#fff' }}>
-            Sign Up
+            {t('signupTitle', language)}
           </Card.Title>
           {message && <Alert variant="info">{message}</Alert>}
           <Form onSubmit={handleSubmit}>
-            {/* Form fields */}
+            <Form.Group controlId="formLanguage" className="mb-3">
+              <Form.Label style={{ color: '#fff' }}>{t('selectLanguage', language)}</Form.Label>
+              <Form.Select value={language} onChange={handleLanguageChange}>
+                <option value="en">{t('english', language)}</option>
+                <option value="es">{t('spanish', language)}</option>
+              </Form.Select>
+            </Form.Group>
+
             <Form.Group controlId="formName" className="mb-3" style={{ color: '#fff' }}>
-              <Form.Label>Name</Form.Label>
+              <Form.Label>{t('nameLabel', language)}</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -59,8 +73,9 @@ const SignUpPage = () => {
                 required
               />
             </Form.Group>
+
             <Form.Group controlId="formEmail" className="mb-3" style={{ color: '#fff' }}>
-              <Form.Label>Email</Form.Label>
+              <Form.Label>{t('emailLabel', language)}</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
@@ -69,8 +84,9 @@ const SignUpPage = () => {
                 required
               />
             </Form.Group>
+
             <Form.Group controlId="formPhone" className="mb-3" style={{ color: '#fff' }}>
-              <Form.Label>Phone</Form.Label>
+              <Form.Label>{t('phoneLabel', language)}</Form.Label>
               <Form.Control
                 type="tel"
                 name="phone"
@@ -79,8 +95,9 @@ const SignUpPage = () => {
                 required
               />
             </Form.Group>
+
             <Form.Group controlId="formPassword" className="mb-3" style={{ color: '#fff' }}>
-              <Form.Label>Password</Form.Label>
+              <Form.Label>{t('passwordLabel', language)}</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
@@ -89,8 +106,9 @@ const SignUpPage = () => {
                 required
               />
             </Form.Group>
+
             <Form.Group controlId="formPin" className="mb-3" style={{ color: '#fff' }}>
-              <Form.Label>PIN</Form.Label>
+              <Form.Label>{t('pinLabel', language)}</Form.Label>
               <Form.Control
                 type="password"
                 name="pin"
@@ -99,12 +117,13 @@ const SignUpPage = () => {
                 required
               />
             </Form.Group>
+
             <Button variant="primary" type="submit" className="w-100 signupButton">
-              Sign Up
+              {t('signupButton', language)}
             </Button>
           </Form>
           <div className="text-center mt-3" style={{ color: '#fff' }}>
-            Already have an account? <a href="/login">Log In</a>
+            {t('haveAccount', language)} <a href="/login">{t('loginLink', language)}</a>
           </div>
         </Card.Body>
       </Card>

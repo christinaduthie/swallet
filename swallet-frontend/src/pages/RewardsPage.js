@@ -5,7 +5,7 @@ export default function RewardsPage() {
     <div className="main-content">
       <TopBar />
       <h2>Rewards</h2>
-      <p>Coming soon...</p>
+
     </div>
   );
 }

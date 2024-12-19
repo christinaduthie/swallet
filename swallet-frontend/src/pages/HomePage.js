@@ -15,6 +15,9 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import jsPDF from 'jspdf';
 
+import { LanguageContext } from '../contexts/LanguageContext';
+import { t } from '../i18n';
+
 const userIcon = L.icon({
   iconUrl:
     'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
@@ -26,6 +29,7 @@ const userIcon = L.icon({
 
 const HomePage = () => {
   const { authToken, user } = useContext(AuthContext);
+  const { language } = useContext(LanguageContext);
   const navigate = useNavigate();
   const [balance, setBalance] = useState(0.0);
   const [transactions, setTransactions] = useState([]);
@@ -109,14 +113,14 @@ const HomePage = () => {
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(12);
-    doc.text("Transactions Report", 10, 10);
+    doc.text(t('transactionsReport', language), 10, 10);
     let yPos = 20;
-    doc.text("Date | Description | Status | Mode | Amount | Balance", 10, yPos);
+    doc.text(`${t('transactionDate', language)} | ${t('description', language)} | ${t('status', language)} | ${t('mode', language)} | ${t('amount', language)} | ${t('balanceText', language)}`, 10, yPos);
     yPos += 10;
     filteredTransactions.forEach((tx) => {
       const txDate = new Date(tx.created_at).toLocaleString();
       const recipient = tx.description || 'N/A';
-      const status = 'Completed';
+      const status = t('completed', language);
       const mode = tx.mode || 'N/A';
       const amt = `$${Number(tx.amount).toFixed(2)}`;
       const balanceVal = tx.running_balance != null ? `$${Number(tx.running_balance).toFixed(2)}` : 'N/A';
@@ -132,7 +136,7 @@ const HomePage = () => {
       <div className="top-row">
         <div className="scan-qr" style={{flex:'1'}}>
           <img src={qrIcon} alt="QR" width="20" height="20"/>
-          Scan QR for payments
+          {t('scanQr', language)}
         </div>
 
         <div className="search-bar">
@@ -151,7 +155,7 @@ const HomePage = () => {
         </div>
 
         <div className="welcome-text">
-          <span>Welcome,</span>
+          <span>{t('welcomeText', language)}</span>
           <span>{user?.name || 'User'}</span>
         </div>
 
@@ -169,27 +173,27 @@ const HomePage = () => {
       <div className="cards-row">
         <Card style={{flex:'1',minWidth:'300px'}}>
           <Card.Body>
-            <h4 className="card-title-custom">Your Digital Wallet Card</h4>
+            <h4 className="card-title-custom">{t('digitalWalletCard', language)}</h4>
             <img src="https://via.placeholder.com/350x199" alt="Card" style={{width:'100%',borderRadius:'15px'}}/>
           </Card.Body>
         </Card>
 
         <Card style={{flex:'1',minWidth:'300px'}}>
           <Card.Body>
-            <h4 className="card-title-custom">Your Digital Wallet Account</h4>
+            <h4 className="card-title-custom">{t('digitalWalletAccount', language)}</h4>
             <div className="wallet-balance">${Number(balance).toFixed(2)}</div>
             <div className="actions-row">
               <div className="action-icon" style={{cursor:'pointer'}} onClick={()=>navigate('/send-to-friend')}>
                 <img src={sendIcon} alt="Send"/>
-                <span>Send</span>
+                <span>{t('send', language)}</span>
               </div>
               <div className="action-icon">
                 <img src={addIcon} alt="Add"/>
-                <span>Add</span>
+                <span>{t('add', language)}</span>
               </div>
               <div className="action-icon">
                 <img src={moreIcon} alt="More"/>
-                <span>More</span>
+                <span>{t('more', language)}</span>
               </div>
             </div>
           </Card.Body>
@@ -200,7 +204,7 @@ const HomePage = () => {
       <div className="cards-row">
         <Card style={{flex:'1',minWidth:'300px'}}>
           <Card.Body>
-            <h4 className="card-title-custom">Cash-in locations</h4>
+            <h4 className="card-title-custom">{t('cashInLocations', language)}</h4>
             <div className="map-container" style={{height:'300px',cursor:'pointer'}} onClick={handleMapClick}>
               <MapContainer
                 center={[39.8283, -98.5795]}
@@ -213,7 +217,7 @@ const HomePage = () => {
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <Marker position={[39.8283, -98.5795]} icon={userIcon}>
-                  <Popup>Click map to open Community Banks page</Popup>
+                  <Popup>{t('clickMapCommunity', language)}</Popup>
                 </Marker>
               </MapContainer>
             </div>
@@ -223,7 +227,7 @@ const HomePage = () => {
         {/* Quick Pay */}
         <Card style={{flex:'1',minWidth:'300px'}}>
           <Card.Body>
-            <h4 className="card-title-custom">Quick Pay</h4>
+            <h4 className="card-title-custom">{t('quickPay', language)}</h4>
             <div className="users-row" style={{display:'flex',flexWrap:'wrap',gap:'20px',marginTop:'20px'}}>
               {users.map(u => (
                 <div key={u.id} style={{display:'flex',flexDirection:'column',alignItems:'center',cursor:'pointer'}}
@@ -251,30 +255,30 @@ const HomePage = () => {
       <div className="cards-row" style={{flexDirection:'column'}}>
         <Card>
           <Card.Body>
-            <h4 className="card-title-custom">Recent Transactions</h4>
+            <h4 className="card-title-custom">{t('recentTransactions', language)}</h4>
             {/* Filter and Download inside the card */}
             <div style={{marginBottom:'20px', display:'flex', gap:'10px', alignItems:'center'}}>
               <Form.Control type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} />
               <Form.Control type="date" value={endDate} onChange={(e)=>setEndDate(e.target.value)} />
-              <Button className="filterButton" onClick={()=>{/* just triggers re-render since we filter in memory */}}>Filter</Button>
-              <Button className="downloadButton" onClick={handleDownloadPDF}>Download</Button>
+              <Button className="filterButton" onClick={()=>{/* just triggers re-render */}}>{t('filter', language)}</Button>
+              <Button className="downloadButton" onClick={handleDownloadPDF}>{t('download', language)}</Button>
             </div>
             <Table striped bordered hover responsive className="recent-tx-table">
               <thead style={{ backgroundColor: '#542de8', color: '#fff' }}>
                 <tr>
-                  <th>Transaction Date</th>
-                  <th>Description</th>
-                  <th>Status</th>
-                  <th>Mode</th>
-                  <th>Amount</th>
-                  <th>Balance</th>
+                  <th>{t('transactionDate', language)}</th>
+                  <th>{t('description', language)}</th>
+                  <th>{t('status', language)}</th>
+                  <th>{t('mode', language)}</th>
+                  <th>{t('amount', language)}</th>
+                  <th>{t('balanceText', language)}</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredTransactions.map((tx) => {
                   const txDate = new Date(tx.created_at).toLocaleString();
                   const recipient = tx.description || 'N/A';
-                  const status = 'Completed';
+                  const status = t('completed', language);
                   const mode = tx.mode || 'N/A';
                   const amt = `$${Number(tx.amount).toFixed(2)}`;
                   const balanceVal = tx.running_balance != null ? `$${Number(tx.running_balance).toFixed(2)}` : 'N/A';

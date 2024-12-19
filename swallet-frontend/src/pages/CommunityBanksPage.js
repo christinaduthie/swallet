@@ -246,7 +246,7 @@ const CashInLocationsPage = () => {
    <div className='main-content'>
    <TopBar />
      <Container>
-      <h2>Cash In Locations</h2>
+      
 
       {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
 
@@ -274,7 +274,7 @@ const CashInLocationsPage = () => {
         <>
           <Card className="mb-4">
             <Card.Body>
-              <Card.Title>Nearest Cash In Location</Card.Title>
+              <Card.Title className='heading'>Your Nearest Community Bank - Cash In Locations</Card.Title>
               <Card.Text>
                 <strong>{nearestStore.name}</strong>
                 <br />
@@ -289,7 +289,7 @@ const CashInLocationsPage = () => {
             </Card.Body>
           </Card>
 
-          <h3>Other Nearby Cash In Locations</h3>
+          <h3>Other Nearby Locations</h3>
           <div className="map-container mb-4">
             <MapContainer
               center={mapCenter}
