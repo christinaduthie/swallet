@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import addIcon from '../assets/images/addIcon.svg';
 import gettingStarted from '../assets/images/gettingStarted.svg';
 import myAccountIcon from '../assets/images/myAccountIcon.svg';
 import paymentIcon from '../assets/images/paymentIcon.svg';
